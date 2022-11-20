@@ -69,3 +69,18 @@ func (s Set) Copy() (set Set) {
 	}
 	return set
 }
+
+func (s Set) String() (str string) {
+	str = "Set{"
+	first := true
+	for st := range s {
+		if first {
+			str += `"` + st + `"`
+			first = false
+		} else {
+			str += "," + `"` + st + `"`
+		}
+
+	}
+	return str + "}"
+}

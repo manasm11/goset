@@ -1,6 +1,7 @@
 package goset
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -187,10 +188,10 @@ func TestSet_Difference(t *testing.T) {
 			t.Errorf("FAILED (%v): Length expected %v, got %v\n", i, test.len, len(diff))
 		}
 		if len(test.s1) != test.s1len {
-			t.Errorf("FAILED (%v): Length os s1 changed from %v to %v\n", i, test.s1len, len(test.s1))
+			t.Errorf("FAILED (%v): Length of s1 changed from %v to %v\n", i, test.s1len, len(test.s1))
 		}
 		if len(test.s2) != test.s2len {
-			t.Errorf("FAILED (%v): Length os s1 changed from %v to %v\n", i, test.s2len, len(test.s2))
+			t.Errorf("FAILED (%v): Length of s1 changed from %v to %v\n", i, test.s2len, len(test.s2))
 		}
 	}
 }
@@ -223,6 +224,23 @@ func TestSet_Copy(t *testing.T) {
 				t.Errorf("Failed (%v): Expected %v to be in %v.", i, str, copySet)
 				break
 			}
+		}
+	}
+}
+
+func TestSet_String(t *testing.T) {
+	tests := []struct {
+		s   Set
+		str string
+	}{
+		{NewSet([]string{}), `Set{}`},
+		{NewSet([]string{""}), `Set{""}`},
+		{NewSet([]string{"A"}), `Set{"A"}`},
+		{NewSet([]string{"A", "B"}), `Set{"A","B"}`},
+	}
+	for i, test := range tests {
+		if fmt.Sprint(test.s) != test.str {
+			t.Errorf("FAILED (%v): String replresentation of %v did't match with %v\n", i, test.s, test.str)
 		}
 	}
 }
