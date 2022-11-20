@@ -61,3 +61,11 @@ func (s Set) Difference(s2 Set) (set Set) {
 	}
 	return set
 }
+
+func (s Set) Copy() (set Set) {
+	set = make(Set)
+	for str := range s {
+		set.Add(str)
+	}
+	return set
+}

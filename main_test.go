@@ -194,3 +194,35 @@ func TestSet_Difference(t *testing.T) {
 		}
 	}
 }
+
+func TestSet_Copy(t *testing.T) {
+	tests := []struct {
+		s Set
+		l int
+	}{
+		{NewSet([]string{}), 0},
+		{NewSet([]string{""}), 1},
+		{NewSet([]string{"A"}), 1},
+		{NewSet([]string{"A", "B"}), 2},
+		{NewSet([]string{"C"}), 1},
+		{NewSet([]string{"ASDC"}), 1},
+		{NewSet([]string{"ASD", "ASDXA"}), 2},
+		{NewSet([]string{"AS", "ASdD", "CZCZ", "CXOW"}), 4},
+	}
+
+	for i, test := range tests {
+		copySet := test.s.Copy()
+		if len(copySet) != test.l {
+			t.Errorf("FAILED (%v): Length expected %v, got %v\n", i, test.l, len(copySet))
+		}
+		if len(copySet) != len(test.s) {
+			t.Errorf("FAILED (%v): Length expected %v, got %v\n", i, len(test.s), len(copySet))
+		}
+		for str := range test.s {
+			if !copySet.Contains(str) {
+				t.Errorf("Failed (%v): Expected %v to be in %v.", i, str, copySet)
+				break
+			}
+		}
+	}
+}
